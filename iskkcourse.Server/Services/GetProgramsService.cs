@@ -27,6 +27,6 @@ namespace ISKKCourse.Server.Services
             return MapDto(program);
         }
 
-        private ProgramDto MapDto(Programs program) => new ProgramDto(program.Id, program.StudyTitle, program.Credits, program.Description);
+        private ProgramDto MapDto(Programs program) => new ProgramDto(program.Id, program.Institution, program.StudyField, program.City, program.ProgramTitle, program.Credits, program.Description);
     }
 }

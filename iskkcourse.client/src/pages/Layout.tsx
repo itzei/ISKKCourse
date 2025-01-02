@@ -24,11 +24,11 @@ export function Layout() {
                         {
                             auth?.role === UserRoles.Admin ?
                              <li>
-                                  <Link to="/dashboard">Admin Panel</Link>
+                                  <Link to="/dashboard">Admin panele</Link>
                              </li> : null
                         }
                             <li>
-                                <button onClick={logoutHandler}>Logout</button>
+                                <button onClick={logoutHandler}>Atsijungti</button>
                             </li>
                         </> : <>
                             <li>

@@ -78,20 +78,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IGetStudentService, GetStudentService>();
-builder.Services.AddScoped<ISaveStudentService, SaveStudentService>();
-
-builder.Services.AddScoped<IGetLecturerService, GetLecturerService>();
-builder.Services.AddScoped<ISaveLecturerService, SaveLecturerService>();
-
 builder.Services.AddScoped<IGetProgramService, GetProgramService>();
 builder.Services.AddScoped<ISaveProgramService, SaveProgramService>();
-
-builder.Services.AddScoped<IGetGroupService, GetGroupService>();
-builder.Services.AddScoped<ISaveGroupService, SaveGroupService>();
-
-builder.Services.AddScoped<IGetSubjectService, GetSubjectService>();
-builder.Services.AddScoped<ISaveSubjectService, SaveSubjectService>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 

@@ -18,8 +18,20 @@ export function ProgramForm(props: ProgramFormProps) {
         <form onSubmit={handleSubmit(storeProgram)} className='flex flex-col gap-3' >
             {program?.id && <input type="hidden" {...register("id")} />}
             <div>
+                <label htmlFor="institution" className={formStyle.label}>Istaiga</label>
+                <input id="institution" className={formStyle.input} {...register("institution")} defaultValue={program?.institution || ''} />
+            </div>
+            <div>
+                <label htmlFor="studyField" className={formStyle.label}>Studijų kryptis</label>
+                <input id="studyField" className={formStyle.input} {...register("studyField")} defaultValue={program?.studyField || ''} />
+            </div>
+            <div>
+                <label htmlFor="city" className={formStyle.label}>Miestas</label>
+                <input id="city" className={formStyle.input} {...register("city")} defaultValue={program?.city || ''} />
+            </div>
+            <div>
                 <label htmlFor="studyTitle" className={formStyle.label}>Studijų pavadinimas</label>
-                <input id="studyTitle" className={formStyle.input} {...register("studyTitle", { required: true, maxLength: 50 })} defaultValue={program?.studyTitle || ''} />
+                <input id="studyTitle" className={formStyle.input} {...register("programTitle", { required: true, maxLength: 50 })} defaultValue={program?.programTitle || ''} />
             </div>
             <div>
                 <label htmlFor="credits" className={formStyle.label}>Kreditai</label>

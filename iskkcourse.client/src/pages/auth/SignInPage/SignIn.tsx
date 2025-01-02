@@ -31,6 +31,7 @@ export default function SignIn() {
     }
     return (
         <form onSubmit={handleSubmit(loginHandler)} className='flex flex-col gap-3 max-w-xs'>
+            <div className='text-3xl font-medium'>Prisijungimas</div>
             {error ? <div className='text-red-800'>{error}</div> : null}
             <div>
                 <label htmlFor="email" className={formStyle.label}>El. paštas</label>

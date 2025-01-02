@@ -9,7 +9,7 @@ namespace ISKKCourse.Server.Services
     {
         public async Task Store(ProgramDto dto)
         {
-            var program = new Programs(dto.StudyTitle, dto.Credits, dto.Description);
+            var program = new Programs(dto.Institution, dto.StudyField, dto.City, dto.ProgramTitle, dto.Credits, dto.Description);
             context.Programs.Add(program);
             await context.SaveChangesAsync();
         }
@@ -19,7 +19,7 @@ namespace ISKKCourse.Server.Services
             var program = await context.Programs.FirstOrDefaultAsync(i => i.Id == id);
             if (program != null)
             {
-                program.SetValues(dto.StudyTitle, dto.Credits, dto.Description);
+                program.SetValues(dto.Institution, dto.StudyField, dto.City, dto.ProgramTitle, dto.Credits, dto.Description);
                 context.Programs.Update(program);
                 await context.SaveChangesAsync();
             }
