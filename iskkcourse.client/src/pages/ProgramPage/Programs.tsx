@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from "react"
 import { IProgram } from "@/interfaces/IProgram";
+import { IStudyFieldGroup } from "@/interfaces/IStudyFieldGroup";
 import { getApi, postApi, putApi, deleteApi } from "@/api";
 import { Modal } from "../components/Modal";
 import { ProgramForm } from "./components/ProgramForm";
@@ -7,19 +8,20 @@ import { pageStyle } from "@/styles/pageStyle"
 import { PencilIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline"
 import { UserRoles } from "@/data/userRoles";
 import { useAuth } from "@/hooks/useAuth";
-import Select from "react-dropdown-select";
 
 export default function Programs() {
     const [programs, setPrograms] = useState<IProgram[]>([])
+    const [studyFieldGroup, setStudyFieldGroup] = useState<IStudyFieldGroup[]>([])
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
     const [visibleDeletionModal, setVisibleDeletionModal] = useState<boolean>(false)
     const [editProgram, setEditProgram] = useState<IProgram | undefined>()
+    const [editStudyFieldGroup, setEditStudyFieldGroup] = useState<IStudyFieldGroup | undefined>()
     const [deleteProgram, setDeleteProgram] = useState<IProgram | undefined>()
     const [openProgramId, setOpenProgramId] = useState<number | null>(null);
     const { auth } = useAuth()
 
     const getPrograms = () => getApi<IProgram[]>('Programs').then(s => s && setPrograms(s))
-
+    const getStudyFieldGroup = () => getApi<IStudyFieldGroup[]>('StudyFieldGroup').then(s => s && setStudyFieldGroup(s))
     const storeProgram = (program: IProgram) => {
         setVisibleModal(false)
         if (program.id) {
@@ -58,6 +60,7 @@ export default function Programs() {
 
     useEffect(() => {
         getPrograms().then(i => i)
+        getStudyFieldGroup().then(i => i)
     }, []);
 
     return <div className='flex flex-col p-6'>
@@ -81,19 +84,17 @@ export default function Programs() {
             </>
             )
         }
-        <select className='w-32'>
-            <option>xd</option>
-        </select>
         <div className=''>
             <table className='my-5 rounded-xl bg-gray-100'>
                 <thead>
                     <tr className='rounded-xl bg-gray-200'>
-                        <th className='p-2 w-1/6'>Istaiga</th>
-                        <th className='p-2 w-1/6'>Studiju kryptis</th>
+                        <th className='p-2 w-1/6'>Krypčių grupė</th>
+                        <th className='p-2 w-1/6'>Kryptis</th>
+                        <th className='p-2 w-1/6'>Įstaiga</th>
                         <th className='p-2 w-1/6'>Miestas</th>
-                        <th className='p-2 w-1/6'>Studiju programa</th>
+                        <th className='p-2 w-1/6'>Studijų programa</th>
                         <th className='p-2 w-1/6'>Kreditai</th>
-                        <th className='p-2 w-1/6'>Aprasymas</th>
+                        <th className='p-2 w-1/6'>Aprašymas</th>
 
                         {auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
                             <>
@@ -106,8 +107,9 @@ export default function Programs() {
             {programs.map(program =>
                 <>
                     <tr key={program.id}>
-                        <td className='p-5 break-words'>{program.institution}</td>
+                        <td className='p-5 break-words'>{program.studyFieldGroup}</td>
                         <td className='p-5 break-words'>{program.studyField}</td>
+                        <td className='p-5 break-words'>{program.institution}</td>
                         <td className='p-5 break-words'>{program.city}</td>
                         <td className='p-5 break-words'>{program.programTitle}</td>
                         <td className='p-5 break-words'>{program.credits}</td>

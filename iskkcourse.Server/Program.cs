@@ -81,6 +81,18 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IGetProgramService, GetProgramService>();
 builder.Services.AddScoped<ISaveProgramService, SaveProgramService>();
 
+builder.Services.AddScoped<IGetStudyFieldGroupService, GetStudyFieldGroupService>();
+builder.Services.AddScoped<ISaveStudyFieldGroupService, SaveStudyFieldGroupService>();
+
+builder.Services.AddScoped<IGetStudyFieldService, GetStudyFieldService>();
+builder.Services.AddScoped<ISaveStudyFieldService, SaveStudyFieldService>();
+
+builder.Services.AddScoped<IGetCityService, GetCityService>();
+builder.Services.AddScoped<ISaveCityService, SaveCityService>();
+
+builder.Services.AddScoped<IGetInstitutionService, GetInstitutionService>();
+builder.Services.AddScoped<ISaveInstitutionService, SaveInstitutionService>();
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IGetIdentityUserService, GetIdentityUserService>();

@@ -10,6 +10,10 @@ namespace ISKKCourse.Server.Data
     public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext(options)
     {
         public DbSet<Programs> Programs { get; set; }
+        public DbSet<StudyFieldGroup> StudyFieldGroups { get; set; }
+        public DbSet<StudyField> StudyFields { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Institution> Institutions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
