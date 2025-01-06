@@ -17,15 +17,15 @@ export default function Dashboard() {
     useEffect(() => {
         getUsers().then(i => i)
     }, []);
-    return <div>
-        <h1 className='text-xl text-blue-950'>Admin dashboard</h1>
+    return <div className='p-6'>
+        <h1 className='text-xl'>Administracijos panelė</h1>
         {error ? <div>{error}</div> : null}
         {data?.text}
         <div>
             <button type="button" className={pageStyle.linkButton}><Link to="/editdata">Edit page</Link></button>
         </div>
-        <div className="text-3xl">Users</div>
-        <div className="relative p-6 flex-auto">
+        <div className="text-3xl">Vartotojai</div>
+        <div className="">
             {
                 identityUsers.map(user =>
                     <div key={user.id}>

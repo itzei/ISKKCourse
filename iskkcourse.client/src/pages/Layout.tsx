@@ -12,19 +12,24 @@ export function Layout() {
     );
 
     return <div className='container max-w-full flex flex-col'>
-        <header className='flex justify-between bg-gradient-to-b from-orange-200 to-orange-300 text-black p-1'>
+        <header className='drop-shadow-lg flex justify-between bg-gradient-to-b from-orange-200 to-orange-300 text-black p-1'>
             <div className='text-3xl my-2 mx-3'><Link to="/">Registracijos puslapis</Link></div>
             <nav>
                 <ul className='flex gap-x-4 my-3 mx-4'>
                     {
                         auth?.isAuthenticated ? <>
-                        <li>
-                            <Link to="/students">Prašymai</Link>
-                        </li>
+                            <li className='font-light'>
+                                Sveiki, {auth?.userName}
+                            </li>
+                            {   auth?.role === UserRoles.User ?
+                                <li>
+                                <Link to="/students">Prašymai</Link>
+                                </li> : null
+                            }
                         {
                             auth?.role === UserRoles.Admin ?
                              <li>
-                                  <Link to="/dashboard">Admin panele</Link>
+                                  <Link to="/dashboard">Administracijos panelė</Link>
                              </li> : null
                         }
                             <li>
@@ -46,7 +51,7 @@ export function Layout() {
             {navigation.state !== "idle" && <div className="m-1">Navigation in progress...</div> }
             {fetcherInProgress && <div className="m-1">Fetcher in progress...</div> }
         </div>
-        <main className='flex min-h-screen items-center content-center justify-center'>
+        <main className='min-h-screen'>
             <Outlet />
         </main>
         

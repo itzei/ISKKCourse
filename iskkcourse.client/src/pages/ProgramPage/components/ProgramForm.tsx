@@ -38,7 +38,8 @@ export function ProgramForm(props: ProgramFormProps) {
             <div>
                 <label htmlFor="studyFieldGroup" className={formStyle.label}>Krypčių grupė</label>
                 <select id="studyFieldGroup" className={formStyle.input} {...register("studyFieldGroup", { required: true, maxLength: 50 })} defaultValue={program?.studyFieldGroup || ''}>
-                    <option value={program?.id}>{program?.studyFieldGroup || '-Pasirinkite-'}</option>
+                    <option className='bg-blue-200' value={program?.id}>{program?.studyFieldGroup || '-Pasirinkite-'}</option>
+                    <hr/>
                     {studyFieldGroup.map(group => 
                             <option key={group.id}>{group.title}</option>
                     )}
@@ -47,7 +48,8 @@ export function ProgramForm(props: ProgramFormProps) {
             <div>
                 <label htmlFor="studyField" className={formStyle.label}>Kryptis</label>
                 <select id="studyField" className={formStyle.input} {...register("studyField", { required: true, maxLength: 50 })} defaultValue={program?.studyField || ''}>
-                    <option value={program?.studyField}>{program?.studyField || '-Pasirinkite-'}</option>
+                    <option className='bg-blue-200' value={program?.studyField}>{program?.studyField || '-Pasirinkite-'}</option>
+                    <hr />
                     {studyField.map(group => 
                             <option key={group.id}>{group.title}</option>
                     )}
@@ -56,7 +58,8 @@ export function ProgramForm(props: ProgramFormProps) {
             <div>
                 <label htmlFor="institution" className={formStyle.label}>Istaiga</label>
                 <select id="institution" className={formStyle.input} {...register("institution", { required: true, maxLength: 50 })} defaultValue={program?.institution || ''}>
-                    <option value={program?.institution}>{program?.institution || '-Pasirinkite-'}</option>
+                    <option className='bg-blue-200' value={program?.institution}>{program?.institution || '-Pasirinkite-'}</option>
+                    <hr />
                     {institution.map(group =>
                         <option key={group.id}>{group.title}</option>
                     )}
@@ -65,7 +68,8 @@ export function ProgramForm(props: ProgramFormProps) {
             <div>
                 <label htmlFor="city" className={formStyle.label}>Miestas</label>
                 <select id="city" className={formStyle.input} {...register("city", { required: true, maxLength: 50 })} defaultValue={program?.city || ''}>
-                    <option value={program?.city}>{program?.city || '-Pasirinkite-'}</option>
+                    <option className='bg-blue-200' value={program?.city}>{program?.city || '-Pasirinkite-'}</option>
+                    <hr />
                     {city.map(group =>
                         <option key={group.id}>{group.title}</option>
                     )}

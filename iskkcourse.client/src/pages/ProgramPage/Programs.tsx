@@ -1,6 +1,9 @@
 ﻿import { useEffect, useState } from "react"
 import { IProgram } from "@/interfaces/IProgram";
 import { IStudyFieldGroup } from "@/interfaces/IStudyFieldGroup";
+import { IStudyField } from "@/interfaces/IStudyField";
+import { IInstitution } from "@/interfaces/IInstitution";
+import { ICity } from "@/interfaces/ICity";
 import { getApi, postApi, putApi, deleteApi } from "@/api";
 import { Modal } from "../components/Modal";
 import { ProgramForm } from "./components/ProgramForm";
@@ -8,10 +11,14 @@ import { pageStyle } from "@/styles/pageStyle"
 import { PencilIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline"
 import { UserRoles } from "@/data/userRoles";
 import { useAuth } from "@/hooks/useAuth";
+import { formStyle } from "../../styles/formStyle";
 
 export default function Programs() {
     const [programs, setPrograms] = useState<IProgram[]>([])
     const [studyFieldGroup, setStudyFieldGroup] = useState<IStudyFieldGroup[]>([])
+    const [studyField, setStudyField] = useState<IStudyField[]>([])
+    const [institution, setInstitution] = useState<IInstitution[]>([])
+    const [city, setCity] = useState<ICity[]>([])
     const [visibleModal, setVisibleModal] = useState<boolean>(false)
     const [visibleDeletionModal, setVisibleDeletionModal] = useState<boolean>(false)
     const [editProgram, setEditProgram] = useState<IProgram | undefined>()
@@ -19,9 +26,13 @@ export default function Programs() {
     const [deleteProgram, setDeleteProgram] = useState<IProgram | undefined>()
     const [openProgramId, setOpenProgramId] = useState<number | null>(null);
     const { auth } = useAuth()
+    const [filteredPrograms, setFilteredPrograms] = useState<IProgram[]>(programs)
 
     const getPrograms = () => getApi<IProgram[]>('Programs').then(s => s && setPrograms(s))
     const getStudyFieldGroup = () => getApi<IStudyFieldGroup[]>('StudyFieldGroup').then(s => s && setStudyFieldGroup(s))
+    const getStudyField = () => getApi<IStudyField[]>('StudyField').then(s => s && setStudyField(s))
+    const getInstitution = () => getApi<IInstitution[]>('Institution').then(s => s && setInstitution(s))
+    const getCity = () => getApi<ICity[]>('City').then(s => s && setCity(s))
     const storeProgram = (program: IProgram) => {
         setVisibleModal(false)
         if (program.id) {
@@ -58,11 +69,23 @@ export default function Programs() {
         setOpenProgramId(openProgramId === id ? null : id);
     }
 
+    const filterPrograms = (key: keyof IProgram, value: string) => {
+        if (value === "") {
+            getPrograms()
+        }
+        else 
+            setPrograms(programs.filter(program => program[key]?.toString() === value))
+        console.info(programs)
+            //TODO: fix table not updating properly after selecting another value while previously selected a value
+    }
+
     useEffect(() => {
         getPrograms().then(i => i)
         getStudyFieldGroup().then(i => i)
+        getStudyField().then(i => i)
+        getInstitution().then(i => i)
+        getCity().then(i => i)
     }, []);
-
     return <div className='flex flex-col p-6'>
         {visibleModal &&
             <Modal visibleModal={visibleModal} setVisibleModal={setVisibleModal} title='Programų forma'>
@@ -84,13 +107,51 @@ export default function Programs() {
             </>
             )
         }
-        <div className=''>
-            <table className='my-5 rounded-xl bg-gray-100'>
+        <div className='flex-auto m-5'>
+            <label htmlFor="studyFieldGroup" className={formStyle.label}>Krypčių grupė</label>
+            <select id="studyFieldGroup" className={formStyle.input}
+                onChange={(e) => filterPrograms("studyFieldGroup", e.target.value )}>
+                <option className='bg-blue-200' value="" >-Pasirinkite-</option>
+                <hr />
+                {studyFieldGroup.map(group =>
+                    <option key={group.id}>{group.title}</option>
+                )}
+            </select>
+            <label htmlFor="studyField" className={formStyle.label}>Kryptis</label>
+            <select id="studyField" className={formStyle.input}
+                onChange={(e) => filterPrograms("studyField", e.target.value)}>
+                <option className='bg-blue-200' value="" >-Pasirinkite-</option>
+                <hr />
+                {studyField.map(group =>
+                    <option key={group.id}>{group.title}</option>
+                )}
+            </select>
+            <label htmlFor="institution" className={formStyle.label}>Įstaiga</label>
+            <select id="institution" className={formStyle.input}
+                onChange={(e) => filterPrograms("institution", e.target.value)}>
+                <option className='bg-blue-200' value="" >-Pasirinkite-</option>
+                <hr />
+                {institution.map(group =>
+                    <option key={group.id}>{group.title}</option>
+                )}
+            </select>
+            <label htmlFor="city" className={formStyle.label}>Miestas</label>
+            <select id="city" className={formStyle.input}
+                onChange={(e) => filterPrograms("city", e.target.value)}>
+                <option className='bg-blue-200' value="" >-Pasirinkite-</option>
+                <hr />
+                {city.map(group =>
+                    <option key={group.id}>{group.title}</option>
+                )}
+            </select>
+        </div>
+        <div className='overflow-x-auto'>
+            <table className=' text-center table-auto my-5 rounded-xl bg-gray-100'>
                 <thead>
                     <tr className='rounded-xl bg-gray-200'>
-                        <th className='p-2 w-1/6'>Krypčių grupė</th>
-                        <th className='p-2 w-1/6'>Kryptis</th>
-                        <th className='p-2 w-1/6'>Įstaiga</th>
+                        <th className='p-2'>Krypčių grupė</th>
+                        <th className='p-2'>Kryptis</th>
+                        <th className='p-2'>Įstaiga</th>
                         <th className='p-2 w-1/6'>Miestas</th>
                         <th className='p-2 w-1/6'>Studijų programa</th>
                         <th className='p-2 w-1/6'>Kreditai</th>
