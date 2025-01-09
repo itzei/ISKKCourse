@@ -22,15 +22,15 @@ export default function SignUp() {
         })
     }
     return (
-        <form onSubmit={handleSubmit(storeUser)} className='flex flex-col flex-grow gap-3 items-center'>
+        <form onSubmit={handleSubmit(storeUser)} className='flex flex-col gap-3 items-center'>
             <div className='text-3xl font-medium'>Registracija</div>
-            {error ? <div className='text-red-800'>{error}</div> : null}
+            {error ? <div className='text-red-800 break-words whitespace-normal overflow-auto'>{error}</div> : null}
             <div>
                 <label htmlFor="userName" className={formStyle.label}>Vartotojo vardas</label>
                 <input id="userName" className={formStyle.input} {...register("userName", {
                     required: "Vartotojo vardas yra privalomas", maxLength: {
                         value: 20,
-                        message: 'Username cannot exceed 20 characters'
+                        message: 'Vartotojo vardas negali būti ilgesnis nei 20 simbolių'
                     }
                 })} />
                 <ErrorBlock errors={errors} name="userName"/>
@@ -44,8 +44,7 @@ export default function SignUp() {
                 <label htmlFor="password" className={formStyle.label}>Slaptažodis</label>
                 <input id="password" type="password" className={formStyle.input} {...register("password", {
                     required: "Slaptažodis yra privalomas",
-                    minLength: { value: 5, message: "Slaptažodis turi būti bent penkių simbolių ilgumo" },
-                    maxLength: {value: 9, message: "Slaptažodis negali būti ilgesnis nei devyni simboliai"}
+                    minLength: { value: 5, message: "Slaptažodis turi būti bent 5 simbolių ilgumo" }
                 })} />
                 <ErrorBlock errors={errors} name="password"/>
             </div>

@@ -18,20 +18,15 @@ export function Layout() {
                 <ul className='flex gap-x-4 my-3 mx-4'>
                     {
                         auth?.isAuthenticated ? <>
-                            <li className='font-light'>
-                                Sveiki, {auth?.userName}
-                            </li>
-                            {   auth?.role === UserRoles.User ?
-                                <li>
-                                <Link to="/students">Prašymai</Link>
-                                </li> : null
-                            }
                         {
                             auth?.role === UserRoles.Admin ?
                              <li>
                                   <Link to="/dashboard">Administracijos panelė</Link>
                              </li> : null
-                        }
+                            }
+                            <li>
+                                <Link to="/Settings">Nustatymai</Link>
+                            </li>
                             <li>
                                 <button onClick={logoutHandler}>Atsijungti</button>
                             </li>

@@ -10,7 +10,7 @@ namespace ISKKCourse.Server.Services
         public async Task<List<IdentityUserDto>> GetAll()
         {
             var identityUser = await context.Users.ToListAsync();
-            List<IdentityUserDto> results = new List<IdentityUserDto>();
+            List<IdentityUserDto> results = [];
 
             foreach (var identityUsers in identityUser)
             {
@@ -23,6 +23,6 @@ namespace ISKKCourse.Server.Services
             var user = await context.Users.FirstOrDefaultAsync(i => i.Id == id);
             return MapDto(user);
         }
-        private IdentityUserDto MapDto(Microsoft.AspNetCore.Identity.IdentityUser identityUsers) => new IdentityUserDto(identityUsers.UserName, identityUsers.Email);
+        private IdentityUserDto MapDto(Microsoft.AspNetCore.Identity.IdentityUser identityUsers) => new IdentityUserDto(identityUsers.Id, identityUsers.UserName, identityUsers.Email, identityUsers.PhoneNumber);
     }
 }

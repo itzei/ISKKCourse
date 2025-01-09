@@ -43,12 +43,13 @@ namespace ISKKCourse.Server.Services
         {
             var user = await userManager.FindByEmailAsync(model?.Email ?? string.Empty);
             if (user == null)
-                return (0, new AuthDto(false, "Invalid email", null, null));
+                return (0, new AuthDto(null, false, "Invalid email", null, null));
             if (!await userManager.CheckPasswordAsync(user, model?.Password ?? string.Empty))
-                return (0, new AuthDto(false, "Invalid password", null, null));
+                return (0, new AuthDto(null, false, "Invalid password", null, null));
 
             var claims = new List<Claim>
             {
+                new(ClaimTypes.NameIdentifier, user.Id),
                 new(ClaimTypes.Name, user.UserName ?? string.Empty),
                 new(ClaimTypes.Email, model?.Email ?? string.Empty)
             };
@@ -65,7 +66,7 @@ namespace ISKKCourse.Server.Services
             await httpContext.SignInAsync(IdentityConstants.ApplicationScheme,
                 new ClaimsPrincipal(claimsIdentity), authProperties);
 
-            return (1, new AuthDto(true, "Login successful", user.UserName, user.Email, roles[0]));
+            return (1, new AuthDto(user.Id, true, "Login successful", user.UserName, user.Email, roles[0]));
         }
 
         public AuthDto CheckSession(HttpContext httpContext)
@@ -75,11 +76,12 @@ namespace ISKKCourse.Server.Services
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)
                 .ToList();
-            if (user.Identity is not { IsAuthenticated: true }) return new AuthDto(false, "User is not authenticated");
+            if (user.Identity is not { IsAuthenticated: true }) return new AuthDto("",false, "User is not authenticated");
 
+            var id = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var userName = user.Identity.Name;
             var userEmail = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-            return new AuthDto(true, "User is authenicated", userName, userEmail, roles[0]);
+            return new AuthDto(id, true, "User is authenicated", userName, userEmail, roles[0]);
         }
 
         public async Task Logout(HttpContext httpContext)

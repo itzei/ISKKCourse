@@ -72,8 +72,8 @@ export default function City() {
         <div className="text-3xl">Miestai</div>
         <button type="button" className={pageStyle.addButton} onClick={addProgram}>Pridėti nauja</button>
 
-        <div className=''>
-            <table className='my-5 rounded-xl bg-gray-100'>
+        <div className='overflow-x-auto'>
+            <table className={ pageStyle.smallTable} >
                 <thead>
                     <tr className='rounded-xl bg-gray-200'>
                         <th className='p-2 w-1/6'>Miestas</th>
@@ -82,7 +82,6 @@ export default function City() {
                 </thead>
                 <tbody>
             {programs.map(program =>
-                <>
                     <tr key={program.id}>
                         <td className='p-5 break-words'>{program.title}</td>
                         <td className='p-5 break-words'>
@@ -94,7 +93,6 @@ export default function City() {
                                     </button>
                         </td>
                     </tr>
-                </>
                     )}
                 </tbody>
             </table>

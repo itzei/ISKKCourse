@@ -96,6 +96,7 @@ builder.Services.AddScoped<ISaveInstitutionService, SaveInstitutionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IGetIdentityUserService, GetIdentityUserService>();
+builder.Services.AddScoped<ISaveIdentityUserService, SaveIdentityUserService>();
 
 var app = builder.Build();
 app.UseCors("AllowAll");

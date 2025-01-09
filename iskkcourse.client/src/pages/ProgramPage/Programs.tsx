@@ -24,11 +24,16 @@ export default function Programs() {
     const [editProgram, setEditProgram] = useState<IProgram | undefined>()
     const [editStudyFieldGroup, setEditStudyFieldGroup] = useState<IStudyFieldGroup | undefined>()
     const [deleteProgram, setDeleteProgram] = useState<IProgram | undefined>()
-    const [openProgramId, setOpenProgramId] = useState<number | null>(null);
     const { auth } = useAuth()
-    const [filteredPrograms, setFilteredPrograms] = useState<IProgram[]>(programs)
+    const [filteredPrograms, setFilteredPrograms] = useState<IProgram[]>([])
 
-    const getPrograms = () => getApi<IProgram[]>('Programs').then(s => s && setPrograms(s))
+    const getPrograms = async () => {
+        const data = await getApi<IProgram[]>("Programs");
+        if (data) {
+            setPrograms(data); 
+            setFilteredPrograms(data);    
+        }
+    };
     const getStudyFieldGroup = () => getApi<IStudyFieldGroup[]>('StudyFieldGroup').then(s => s && setStudyFieldGroup(s))
     const getStudyField = () => getApi<IStudyField[]>('StudyField').then(s => s && setStudyField(s))
     const getInstitution = () => getApi<IInstitution[]>('Institution').then(s => s && setInstitution(s))
@@ -65,26 +70,20 @@ export default function Programs() {
         setVisibleDeletionModal(true)
     }
 
-    const toggleContent = (id: number) => {
-        setOpenProgramId(openProgramId === id ? null : id);
-    }
-
     const filterPrograms = (key: keyof IProgram, value: string) => {
-        if (value === "") {
-            getPrograms()
+        if (value !== "") {
+            setFilteredPrograms(programs.filter(program => program[key]?.toString() === value))
         }
         else 
-            setPrograms(programs.filter(program => program[key]?.toString() === value))
-        console.info(programs)
-            //TODO: fix table not updating properly after selecting another value while previously selected a value
+            setFilteredPrograms(programs)
     }
 
     useEffect(() => {
-        getPrograms().then(i => i)
-        getStudyFieldGroup().then(i => i)
-        getStudyField().then(i => i)
-        getInstitution().then(i => i)
-        getCity().then(i => i)
+        getPrograms()
+        getStudyFieldGroup()
+        getStudyField()
+        getInstitution()
+        getCity()
     }, []);
     return <div className='flex flex-col p-6'>
         {visibleModal &&
@@ -108,125 +107,91 @@ export default function Programs() {
             )
         }
         <div className='flex-auto m-5'>
+
             <label htmlFor="studyFieldGroup" className={formStyle.label}>Krypčių grupė</label>
             <select id="studyFieldGroup" className={formStyle.input}
                 onChange={(e) => filterPrograms("studyFieldGroup", e.target.value )}>
                 <option className='bg-blue-200' value="" >-Pasirinkite-</option>
-                <hr />
                 {studyFieldGroup.map(group =>
                     <option key={group.id}>{group.title}</option>
                 )}
             </select>
+
             <label htmlFor="studyField" className={formStyle.label}>Kryptis</label>
             <select id="studyField" className={formStyle.input}
                 onChange={(e) => filterPrograms("studyField", e.target.value)}>
                 <option className='bg-blue-200' value="" >-Pasirinkite-</option>
-                <hr />
-                {studyField.map(group =>
-                    <option key={group.id}>{group.title}</option>
+                {studyField.map(field =>
+                    <option key={field.id}>{field.title}</option>
                 )}
             </select>
+
             <label htmlFor="institution" className={formStyle.label}>Įstaiga</label>
             <select id="institution" className={formStyle.input}
                 onChange={(e) => filterPrograms("institution", e.target.value)}>
                 <option className='bg-blue-200' value="" >-Pasirinkite-</option>
-                <hr />
-                {institution.map(group =>
-                    <option key={group.id}>{group.title}</option>
+                {institution.map(inst =>
+                    <option key={inst.id}>{inst.title}</option>
                 )}
             </select>
+
             <label htmlFor="city" className={formStyle.label}>Miestas</label>
             <select id="city" className={formStyle.input}
                 onChange={(e) => filterPrograms("city", e.target.value)}>
                 <option className='bg-blue-200' value="" >-Pasirinkite-</option>
-                <hr />
-                {city.map(group =>
-                    <option key={group.id}>{group.title}</option>
+                {city.map(city =>
+                    <option key={city.id}>{city.title}</option>
                 )}
             </select>
         </div>
-        <div className='overflow-x-auto'>
-            <table className=' text-center table-auto my-5 rounded-xl bg-gray-100'>
-                <thead>
-                    <tr className='rounded-xl bg-gray-200'>
-                        <th className='p-2'>Krypčių grupė</th>
-                        <th className='p-2'>Kryptis</th>
-                        <th className='p-2'>Įstaiga</th>
-                        <th className='p-2 w-1/6'>Miestas</th>
-                        <th className='p-2 w-1/6'>Studijų programa</th>
-                        <th className='p-2 w-1/6'>Kreditai</th>
-                        <th className='p-2 w-1/6'>Aprašymas</th>
 
-                        {auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
-                            <>
-                                <th className='p-2 w-1/6'>Veiksmai</th>
-                            </>
-                        )}
-                    </tr>
-                </thead>
-                <tbody>
-            {programs.map(program =>
-                <>
-                    <tr key={program.id}>
-                        <td className='p-5 break-words'>{program.studyFieldGroup}</td>
-                        <td className='p-5 break-words'>{program.studyField}</td>
-                        <td className='p-5 break-words'>{program.institution}</td>
-                        <td className='p-5 break-words'>{program.city}</td>
-                        <td className='p-5 break-words'>{program.programTitle}</td>
-                        <td className='p-5 break-words'>{program.credits}</td>
-                        <td className='p-5 break-words'>{program.description}</td>
-                        <td className='p-5 break-words'>
-                        {
-                            auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
-                                <>
-                                    <button type="button" className={pageStyle.editButton} onClick={() => editHandler(program)}>
-                                        <PencilIcon className="h-5 w-5 stroke-gray-600" />
-                                    </button>
-                                    <button type="button" className={pageStyle.deleteButton} onClick={() => deleteHandler(program)}>
-                                        <TrashIcon className="h-5 w-5 stroke-gray-600" />
-                                    </button>
-                                </>
-                            )
-                            }
-                        </td>
+        <div className='overflow-x-auto'>
+            {filteredPrograms.length > 0 ? (
+                <table className={pageStyle.fullTable}>
+                    <thead>
+                        <tr className='rounded-xl bg-gray-200'>
+                            <th className='p-2'>Krypčių grupė</th>
+                            <th className='p-2'>Kryptis</th>
+                            <th className='p-2'>Įstaiga</th>
+                            <th className='p-2'>Miestas</th>
+                            <th className='p-2'>Studijų programa</th>
+                            <th className='p-2 w-1/12'>Kreditai</th>
+                            <th className='p-2 w-2/6'>Aprašymas</th>
+
+                            {auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
+                                    <th className='p-2'>Veiksmai</th>
+                            )}
                             </tr>
-                    {/*<div className={pageStyle.collapsibleButtonBlock}>
-                        <button className={pageStyle.collapsibleButton} onClick={() => toggleContent(program.id)}>
-                            <b>{program.programTitle}</b>
-                            {openProgramId === program.id ?
-                                <ChevronUpIcon className="h-5 w-5 stroke-gray-600" /> :
-                                <ChevronDownIcon className="h-5 w-5 stroke-gray-600" />}
-                        </button>
-                        
-                    <div className={pageStyle.collapsibleContent} style={{ display: openProgramId === program.id ? 'block' : 'none' }}>
-                            <table className='table-auto'>
-                                <thead>
-                                    <tr>
-                                        <th>Istaiga</th>
-                                        <th>Studiju kryptis</th>
-                                        <th>Miestas</th>
-                                        <th>Studiju programa</th>
-                                        <th>Kreditai</th>
-                                        <th>Aprasymas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{program.institution}</td>
-                                        <td>{program.studyField}</td>
-                                        <td>{program.city}</td>
-                                        <td>{program.programTitle}</td>
-                                        <td>{program.credits}</td>
-                                        <td>{program.description}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>*/}
-                </>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredPrograms.map(program =>
+                                <tr key={program.id} className='border-2'>
+                                    <td className='p-5'>{program.studyFieldGroup}</td>
+                                    <td className='p-5'>{program.studyField}</td>
+                                    <td className='p-5'>{program.institution}</td>
+                                    <td className='p-5'>{program.city}</td>
+                                    <td className='p-5'>{program.programTitle}</td>
+                                    <td className='p-5'>{program.credits}</td>
+                                    <td className='p-5 text-left'>{program.description}</td>
+                                        {
+                                            auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
+                                                <td className='p-5 break-words'>
+                                                    <button type="button" className={pageStyle.editButton} onClick={() => editHandler(program)}>
+                                                        <PencilIcon className="h-5 w-5 stroke-gray-600" />
+                                                    </button>
+                                                    <button type="button" className={pageStyle.deleteButton} onClick={() => deleteHandler(program)}>
+                                                        <TrashIcon className="h-5 w-5 stroke-gray-600" />
+                                                    </button>
+                                                </td>
+                                            )
+                                }
+                                </tr>
+                        )}
+                    </tbody>
+                </table>
+            ) : (
+                    <div>Nėra studijų programų, atitinkančių pasirinktus kriterijus.</div>
+            )}
         </div>
     </div>
 }

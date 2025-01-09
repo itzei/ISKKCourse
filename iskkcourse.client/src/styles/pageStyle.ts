@@ -7,4 +7,6 @@ export const pageStyle = {
     collapsibleButtonBlock: 'bg-gray-200 px-3 py-1 my-1 focus:outline-none rounded-lg',
     collapsibleButton: 'flex w-96 text-left bg-gray-200 px-3 py-1 my-1 hover:bg-gray-300 focus:outnline-none focus:ring-gray-400 rounded-lg',
     collapsibleContent: '',
+    smallTable: 'w-1/2 text-center table-fixed my-5 rounded-xl bg-gray-100',
+    fullTable: 'w-full text-center table-auto my-5 rounded-xl bg-gray-100',
 }

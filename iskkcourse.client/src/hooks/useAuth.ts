@@ -15,11 +15,11 @@ export function useAuth() {
     const logoutHandler = async () => {
         await postApi('Authentication/logout', {});
         setAuth(undefined);
-        navigate('signin');
+        navigate('/');
         useEffect(() => {
             console.log("Auth value:", auth);
             if (auth === undefined) {
-                navigate('signin');
+                navigate('/');
             }
         }, [auth]);
 

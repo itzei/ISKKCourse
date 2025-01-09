@@ -14,7 +14,6 @@ export default function StudyFieldGroup() {
     const [visibleDeletionModal, setVisibleDeletionModal] = useState<boolean>(false)
     const [editProgram, setEditProgram] = useState<IStudyFieldGroup | undefined>()
     const [deleteProgram, setDeleteProgram] = useState<IStudyFieldGroup | undefined>()
-    const [openProgramId, setOpenProgramId] = useState<number | null>(null);
     const { auth } = useAuth()
 
     const getPrograms = () => getApi<IStudyFieldGroup[]>('StudyFieldGroup').then(s => s && setPrograms(s))
@@ -72,8 +71,8 @@ export default function StudyFieldGroup() {
         <div className="text-3xl">Studijų krypčių grupės</div>
         <button type="button" className={pageStyle.addButton} onClick={addProgram}>Pridėti nauja</button>
 
-        <div className=''>
-            <table className='my-5 rounded-xl bg-gray-100'>
+        <div className='overflow-x-auto'>
+            <table className={pageStyle.smallTable}>
                 <thead>
                     <tr className='rounded-xl bg-gray-200'>
                         <th className='p-2 w-1/6'>Krypčių grupė</th>
@@ -82,7 +81,6 @@ export default function StudyFieldGroup() {
                 </thead>
                 <tbody>
             {programs.map(program =>
-                <>
                     <tr key={program.id}>
                         <td className='p-5 break-words'>{program.title}</td>
                         <td className='p-5 break-words'>
@@ -94,7 +92,6 @@ export default function StudyFieldGroup() {
                                     </button>
                         </td>
                     </tr>
-                </>
                     )}
                 </tbody>
             </table>

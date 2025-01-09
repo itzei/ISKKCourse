@@ -72,8 +72,8 @@ export default function StudyField() {
         <div className="text-3xl">Studijų kryptys</div>
         <button type="button" className={pageStyle.addButton} onClick={addProgram}>Pridėti nauja</button>
 
-        <div className=''>
-            <table className='my-5 rounded-xl bg-gray-100'>
+        <div className='overflow-x-auto'>
+            <table className={pageStyle.smallTable}>
                 <thead>
                     <tr className='rounded-xl bg-gray-200'>
                         <th className='p-2 w-1/6'>Kryptis</th>
@@ -82,7 +82,6 @@ export default function StudyField() {
                 </thead>
                 <tbody>
             {programs.map(program =>
-                <>
                     <tr key={program.id}>
                         <td className='p-5 break-words'>{program.title}</td>
                         <td className='p-5 break-words'>
@@ -94,7 +93,6 @@ export default function StudyField() {
                             </button>
                         </td>
                     </tr>
-                </>
                 )}
                 </tbody>
             </table>

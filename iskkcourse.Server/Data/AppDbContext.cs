@@ -14,6 +14,7 @@ namespace ISKKCourse.Server.Data
         public DbSet<StudyField> StudyFields { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<Institution> Institutions { get; set; }
+        public DbSet<User> User {  get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
