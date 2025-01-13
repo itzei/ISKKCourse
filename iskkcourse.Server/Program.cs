@@ -68,7 +68,7 @@ services.Configure<IdentityOptions>(options =>
 services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>
-    builder.WithOrigins("https://localhost:5173")
+    builder.WithOrigins("https://localhost:5173", "https://calm-coast-0b62f4f03.4.azurestaticapps.net")
     .AllowAnyMethod()
     .AllowAnyHeader()
     .AllowCredentials());
