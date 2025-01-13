@@ -41,7 +41,8 @@ export function SettingsForm(props: SettingsFormProps) {
                 <label htmlFor="phoneNumber" className={formStyle.label}>Tel. nr.</label>
                 <input id="phoneNumber" className={formStyle.input} {...register("phoneNumber", {
                     minLength: { value: 9, message: "Tel. nr. turi būti bent 9 simbolių ilgumo" },
-                    maxLength: { value: 11, message: "Tel. nr. negali būti ilgesnis nei 11 simbolių" } })} defaultValue={user?.phoneNumber || ''} />
+                    maxLength: { value: 11, message: "Tel. nr. negali būti ilgesnis nei 11 simbolių" },
+                })} defaultValue={user?.phoneNumber || ''} />
                 <ErrorBlock errors={errors} name="phoneNumber" />
             </div>
             <button className={formStyle.button} type="submit">
