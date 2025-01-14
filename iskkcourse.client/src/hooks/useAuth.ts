@@ -16,14 +16,13 @@ export function useAuth() {
         await postApi('Authentication/logout', {});
         setAuth(undefined);
         navigate('/');
-        useEffect(() => {
-            console.log("Auth value:", auth);
-            if (auth === undefined) {
-                navigate('/');
-            }
-        }, [auth]);
-
     };
+
+    useEffect(() => {
+        if (auth === undefined) {
+            navigate('/');
+        }
+    }, [auth]);
 
     return {logoutHandler, auth}
 }
