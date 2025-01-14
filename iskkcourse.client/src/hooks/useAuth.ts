@@ -13,17 +13,19 @@ export function useAuth() {
 
 
     const logoutHandler = async () => {
-        await postApi('Authentication/logout', {});
+        const response = await postApi('Authentication/logout', {});
+        console.log('Logout response:', response);
+        console.log('Auth before setAuth:', auth);
         setAuth(undefined);
+        console.log('Auth after setAuth:', auth);
         navigate('/');
-        useEffect(() => {
-            console.log("Auth value:", auth);
-            if (auth === undefined) {
-                navigate('/');
-            }
-        }, [auth]);
-
     };
+
+    useEffect(() => {
+        if (auth === undefined) {
+            navigate('/');
+        }
+    }, [auth]);
 
     return {logoutHandler, auth}
 }
