@@ -87,6 +87,7 @@ namespace ISKKCourse.Server.Services
         public async Task Logout(HttpContext httpContext)
         {
             await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
         }
     }
 }

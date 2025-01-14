@@ -14,10 +14,7 @@ export function useAuth() {
 
     const logoutHandler = async () => {
         const response = await postApi('Authentication/logout', {});
-        console.log('Logout response:', response);
-        console.log('Auth before setAuth:', auth);
         setAuth(undefined);
-        console.log('Auth after setAuth:', auth);
         navigate('/');
     };
 
@@ -25,7 +22,7 @@ export function useAuth() {
         if (auth === undefined) {
             navigate('/');
         }
-    }, [auth]);
+    }, [auth, navigate]);
 
     return {logoutHandler, auth}
 }
