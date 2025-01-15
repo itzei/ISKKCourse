@@ -87,12 +87,11 @@ namespace ISKKCourse.Server.Services
             return new AuthDto(true, "User is authenicated", id, userName, userEmail, roles[0]);
         }
 
-        public async Task<AuthDto> Logout(HttpContext httpContext)
+        public async Task Logout(HttpContext httpContext)
         {
-                await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                await httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
                 httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
-                return new AuthDto(false, "User logged out successfully");
         }
 
     }

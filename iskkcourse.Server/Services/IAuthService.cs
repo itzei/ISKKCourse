@@ -7,6 +7,6 @@ namespace ISKKCourse.Server.Services
         Task<(int, string)> Registration(RegistrationDto model);
         Task<(int, AuthDto)> Login(LoginDto model, HttpContext httpContext);
         AuthDto CheckSession(HttpContext httpContext);
-        Task<AuthDto> Logout(HttpContext httpContext);
+        Task Logout(HttpContext httpContext);
     }
 }
