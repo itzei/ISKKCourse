@@ -76,7 +76,7 @@ namespace ISKKCourse.Server.Services
                 .Where(c => c.Type == ClaimTypes.Role)
                 .Select(c => c.Value)
                 .ToList();
-            if (user.Identity is not { IsAuthenticated: true }) return new AuthDto("",false, "User is not authenticated");
+            if (user.Identity is not { IsAuthenticated: true }) return new AuthDto(null, false, "User is not authenticated");
 
             var id = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
             var userName = user.Identity.Name;
@@ -88,6 +88,7 @@ namespace ISKKCourse.Server.Services
         {
             await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
             httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
         }
     }
 }
