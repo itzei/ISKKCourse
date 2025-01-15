@@ -90,8 +90,6 @@ namespace ISKKCourse.Server.Services
             {
                 await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
                 httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
-                httpContext.Session.Clear(); // Ensure session middleware is configured
-                                             // Invalidate the user's claims principal
                 httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
                 Console.WriteLine("User logged out successfully.");
             }

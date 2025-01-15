@@ -18,6 +18,7 @@ export function useAuth() {
             console.log('Logout response:', response);
             setAuth(undefined);
             console.log('Auth after setAuth:', useStore.getState().auth);
+            console.info(auth?.isAuthenticated);
             navigate('/signin');
         } catch (error) {
             console.error("Logout failed", error);
