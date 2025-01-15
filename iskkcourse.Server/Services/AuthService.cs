@@ -84,21 +84,12 @@ namespace ISKKCourse.Server.Services
             return new AuthDto(id, true, "User is authenicated", userName, userEmail, roles[0]);
         }
 
-        public async Task Logout(HttpContext httpContext)
+        public async Task<AuthDto> Logout(HttpContext httpContext)
         {
-            try
-            {
                 await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
                 httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
                 httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
-                Console.WriteLine("User logged out successfully.");
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (use your preferred logging framework)
-                Console.WriteLine($"Logout failed: {ex.Message}");
-                throw; // Re-throw the exception to ensure the client receives the error
-            }
+                return new AuthDto(null, false, "User logged out successfully");
         }
 
     }
