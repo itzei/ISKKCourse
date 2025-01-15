@@ -86,9 +86,22 @@ namespace ISKKCourse.Server.Services
 
         public async Task Logout(HttpContext httpContext)
         {
-            await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
-            httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
-            httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+            try
+            {
+                await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+                httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+                httpContext.Session.Clear(); // Ensure session middleware is configured
+                                             // Invalidate the user's claims principal
+                httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
+                Console.WriteLine("User logged out successfully.");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (use your preferred logging framework)
+                Console.WriteLine($"Logout failed: {ex.Message}");
+                throw; // Re-throw the exception to ensure the client receives the error
+            }
         }
+
     }
 }

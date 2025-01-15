@@ -13,10 +13,17 @@ export function useAuth() {
 
 
     const logoutHandler = async () => {
-        const response = await postApi('Authentication/logout', {});
-        setAuth(undefined);
-        navigate('/');
+        try {
+            const response = await postApi('Authentication/logout', {});
+            console.log('Logout response:', response);
+            setAuth(undefined);
+            console.log('Auth after setAuth:', useStore.getState().auth);
+            navigate('/signin');
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
     };
+
 
     useEffect(() => {
         if (auth === undefined) {
