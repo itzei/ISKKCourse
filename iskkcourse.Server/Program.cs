@@ -118,7 +118,6 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
 
 var antiforgery = app.Services.GetRequiredService<IAntiforgery>();
 app.Use((context, next) =>
