@@ -7,11 +7,10 @@ import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
  
 export default function App() {
+        const { auth, setAuth } = useStore(
+            useShallow((state) => ({ auth: state.auth, setAuth: state.setAuth }))
+        );
 
-    const { setAuth, auth } = useStore(useShallow((state) => ({
-        setAuth: state.setAuth,
-        auth: state.auth
-    })));
     useEffect(() => {
         if (auth === undefined)
             getApi<IAuth>('Authentication/check-session').then(res => {
