@@ -91,6 +91,10 @@ namespace ISKKCourse.Server.Services
         {
                 await httpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
                 httpContext.Response.Cookies.Delete(".AspNetCore.Identity.Application");
+                foreach (var cookie in httpContext.Request.Cookies.Keys)
+                {
+                    httpContext.Response.Cookies.Delete(cookie);
+                }
                 httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
         }
 
