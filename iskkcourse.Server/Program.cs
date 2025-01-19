@@ -40,7 +40,7 @@ services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
         options.SlidingExpiration = true;
-        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.SameSite = SameSiteMode.None;
         options.Events = new CookieAuthenticationEvents
         {
             OnRedirectToLogin = context =>
@@ -132,7 +132,7 @@ app.Use((context, next) =>
         {
             HttpOnly = false,
             Secure = true,
-            SameSite = SameSiteMode.Lax
+            SameSite = SameSiteMode.None
         });
     return next(context);
 });

@@ -94,7 +94,6 @@ namespace ISKKCourse.Server.Services
                 {
                     httpContext.Response.Cookies.Delete(cookie);
                 }
-                httpContext.User = new ClaimsPrincipal(new ClaimsIdentity());
         }
 
     }
