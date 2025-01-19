@@ -155,7 +155,6 @@ export default function Programs() {
                             <th className='p-2'>Įstaiga</th>
                             <th className='p-2'>Miestas</th>
                             <th className='p-2'>Studijų programa</th>
-                            <th className='p-2 w-1/12'>Kreditai</th>
                             <th className='p-2 w-2/6'>Aprašymas</th>
 
                             {auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
@@ -171,7 +170,6 @@ export default function Programs() {
                                     <td className='p-5'>{program.institution}</td>
                                     <td className='p-5'>{program.city}</td>
                                     <td className='p-5'>{program.programTitle}</td>
-                                    <td className='p-5'>{program.credits}</td>
                                     <td className='p-5 text-left'>{program.description}</td>
                                         {
                                             auth?.isAuthenticated && auth?.role === UserRoles.Admin && (
