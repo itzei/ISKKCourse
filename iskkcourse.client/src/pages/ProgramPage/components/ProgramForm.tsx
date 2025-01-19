@@ -77,7 +77,7 @@ export function ProgramForm(props: ProgramFormProps) {
             </div>
             <div>
                 <label htmlFor="description" className={formStyle.label}>Aprašymas</label>
-                <input id="description" className={formStyle.input} {...register("description")} defaultValue={program?.description || ''} />
+                <textarea id="description" className={formStyle.inputLarge} {...register("description")} defaultValue={program?.description || ''} />
             </div>
             <button className={formStyle.button} type="submit">Išsaugoti</button>
         </form>
