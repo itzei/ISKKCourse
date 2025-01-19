@@ -76,10 +76,6 @@ export function ProgramForm(props: ProgramFormProps) {
                 <input id="studyTitle" className={formStyle.input} {...register("programTitle", { required: true, maxLength: 50 })} defaultValue={program?.programTitle || ''} />
             </div>
             <div>
-                <label htmlFor="credits" className={formStyle.label}>Kreditai</label>
-                <input id="credits" className={formStyle.input} {...register("credits", { required: true, maxLength: 3 })} defaultValue={program?.credits || ''} />
-            </div>
-            <div>
                 <label htmlFor="description" className={formStyle.label}>Aprašymas</label>
                 <input id="description" className={formStyle.input} {...register("description")} defaultValue={program?.description || ''} />
             </div>

@@ -182,7 +182,7 @@ export default function Programs() {
                                                     </button>
                                                 </td>
                                             )
-                                }
+                                        }
                                 </tr>
                         )}
                     </tbody>
