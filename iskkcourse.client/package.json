@@ -16,7 +16,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropdown-select": "^4.11.3",
-    "react-hook-form": "^7.53.0",
+    "react-hook-form": "^7.54.2",
     "react-router": "^6.28.1",
     "react-router-dom": "^6.28.1",
     "swr": "^2.2.5",
